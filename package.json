@@ -5,12 +5,12 @@
   "main": "index.js",
   "bin": "bin/devtool",
   "scripts": {
-    "dev": "yarn build && concurrently -n client,server,devtool -c red,green,yellow \"yarn watch:client\" \"yarn watch:server\" \"nodemon dist/server\"",
-    "build": "yarn build:client && yarn build:server",
-    "build:client": "esbuild client/index.ts --bundle --outfile=dist/client.js",
-    "build:server": "esbuild server/index.ts --bundle --platform=node --outfile=dist/server.js",
-    "watch:client": "esbuild client/index.ts --bundle --outfile=dist/client.js --watch",
-    "watch:server": "esbuild server/index.ts --bundle --platform=node --outfile=dist/server.js --watch",
+    "dev": "yarn build && concurrently -n devtool,environment,dist -c red,green,yellow \"yarn watch:devtool\" \"yarn watch:environment\" \"nodemon dist/environment\"",
+    "build": "yarn build:devtool && yarn build:environment",
+    "build:devtool": "esbuild devtool/index.ts --bundle --outfile=dist/devtool.js",
+    "build:environment": "esbuild environment/index.ts --bundle --platform=node --outfile=dist/environment.js",
+    "watch:devtool": "esbuild devtool/index.ts --bundle --outfile=dist/devtool.js --watch",
+    "watch:environment": "esbuild environment/index.ts --bundle --platform=node --outfile=dist/environment.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,9 +27,5 @@
     "concurrently": "^7.3.0",
     "esbuild": "^0.15.7",
     "nodemon": "^2.0.19"
-  },
-  "dependencies": {
-    "@types/express": "^4.17.13",
-    "express": "^4.18.1"
   }
 }

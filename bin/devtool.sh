@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node ../dist/server.js
+node ../dist/environment.js
