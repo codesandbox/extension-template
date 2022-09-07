@@ -1,0 +1,31 @@
+{
+  "name": "devtool-template",
+  "version": "1.0.0",
+  "description": "A devtool for CodeSandbox",
+  "main": "index.js",
+  "bin": "bin/devtool",
+  "scripts": {
+    "dev": "yarn build && concurrently -n devtool,environment,dist -c red,green,yellow \"yarn watch:devtool\" \"yarn watch:environment\" \"nodemon dist/environment\"",
+    "build": "yarn build:devtool && yarn build:environment",
+    "build:devtool": "esbuild devtool/index.ts --bundle --outfile=dist/devtool.js",
+    "build:environment": "esbuild environment/index.ts --bundle --platform=node --outfile=dist/environment.js",
+    "watch:devtool": "esbuild devtool/index.ts --bundle --outfile=dist/devtool.js --watch",
+    "watch:environment": "esbuild environment/index.ts --bundle --platform=node --outfile=dist/environment.js --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesandbox/devtool-template.git"
+  },
+  "author": "CodeSandbox",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codesandbox/devtool-template/issues"
+  },
+  "homepage": "https://github.com/codesandbox/devtool-template#readme",
+  "devDependencies": {
+    "concurrently": "^7.3.0",
+    "esbuild": "^0.15.7",
+    "nodemon": "^2.0.19"
+  }
+}

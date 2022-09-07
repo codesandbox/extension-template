@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "dev": {
+      "name": "Develop",
+      "command": "yarn dev"
+    }
+  }
+}
