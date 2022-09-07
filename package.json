@@ -27,5 +27,8 @@
     "concurrently": "^7.3.0",
     "esbuild": "^0.15.7",
     "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
   }
 }

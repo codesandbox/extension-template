@@ -1,10 +1,17 @@
 document.body.innerHTML = `
+<button id="open-package-json">Open Package Json</button>
     <button id="uppercase-name">Make package.json name uppercase</button>
+    
 `
 
-const button = document.querySelector('#uppercase-name')
+document.querySelector('#open-package-json')?.addEventListener('click', () => {
+    window.__CSB_PREVIEW_PROTOCOL.sendMessage({
+        type: 'FOCUS_FILE',
+        path: 'package.json'
+    })
+})
 
-button?.addEventListener('click', () => {
-    console.log("FETCHING!")
+
+document.querySelector('#uppercase-name')?.addEventListener('click', () => {
     fetch('/uppercase-name')
 })
