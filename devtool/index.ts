@@ -1,17 +1,20 @@
+import { SandpackClient } from '@codesandbox/sandpack-client'
+
 document.body.innerHTML = `
-<button id="open-package-json">Open Package Json</button>
-    <button id="uppercase-name">Make package.json name uppercase</button>
+<iframe id="preview"/>
     
 `
 
-document.querySelector('#open-package-json')?.addEventListener('click', () => {
-    window.__CSB_PREVIEW_PROTOCOL.sendMessage({
-        type: 'FOCUS_FILE',
-        path: 'package.json'
-    })
-})
+async function start() {
+  const response = await fetch('/files')
+  const files = await response.json()
+  
+  console.log(files)
+const client = new SandpackClient("#preview", {
+  files
+});
+}
+
+start()
 
 
-document.querySelector('#uppercase-name')?.addEventListener('click', () => {
-    fetch('/uppercase-name')
-})

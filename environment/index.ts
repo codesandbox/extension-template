@@ -1,23 +1,46 @@
 import express from 'express'
-import fs from 'fs'
+import fs from 'fs/promises'
+import path from 'path'
 
 const app = express()
 const port = 3000
 
+function getAllFilesAndContents(rootPath: string, dirPath: string, files: Record<string, { code: string }>): Promise<any> {
+    return fs.readdir(dirPath).then((entries) => Promise.all(entries.map((entry) => {
+        const entryPath = path.join(dirPath, entry)
+        return fs.stat(entryPath).then((stat) => {
+            if (stat.isFile()) {
+                return fs.readFile(entryPath).then((content) => files[entryPath.substring(rootPath.length)] = { code: content.toString() })
+            } else if (stat.isDirectory()) {
+                return getAllFilesAndContents(rootPath, entryPath, files)
+            }
+        })
+    })))
+}
+
 app.get('/devtool.js', (_, res) => {
     res.setHeader('Content-Type', 'application/javascript')
-    res.send(fs.readFileSync(`${__dirname}/devtool.js`).toString())
+    fs.readFile(`${__dirname}/devtool.js`).then((content) => {
+       res.send(content.toString())
+    })
+    
 })
 
-app.get('/uppercase-name', () => {
-    console.log("UPPERCASED IT!?!?")
-    const packageJson = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString())
+app.get('/files', (_, res) => {
+    let entryPath = process.cwd()
     
-    packageJson.name = packageJson.name.toUpperCase()
+    if (!process.env.NODE_ENV) {
+        entryPath = path.join(entryPath, 'demo')
+    }
     
+    const files: Record<string, { code: string }> = {}
     
+
     
-    fs.writeFileSync(`${__dirname}/../package.json`, JSON.stringify(packageJson, null, 2))
+    getAllFilesAndContents(entryPath, entryPath, files).then(() => {
+        res.setHeader('Content-Type', 'application/json')
+        res.send(JSON.stringify(files))
+    })
 })
 
 app.get('/', (_, res) => {
