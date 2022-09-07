@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node ../dist/environment.js
+NODE_ENV=production node ../dist/environment.js
