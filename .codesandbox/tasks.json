@@ -2,7 +2,8 @@
   "tasks": {
     "dev": {
       "name": "Develop",
-      "command": "yarn dev"
+      "command": "yarn dev",
+      "runAtStart": true
     }
   }
 }
