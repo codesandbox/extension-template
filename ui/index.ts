@@ -1,7 +1,7 @@
 import { SandpackClient } from '@codesandbox/sandpack-client'
 
 document.body.innerHTML = `
-<iframe id="iframe"/>
+<iframe id="iframe" style="border:0;width:100%;height:100%;"/>
     
 `
 

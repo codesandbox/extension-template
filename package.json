@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": "bin/extension",
   "scripts": {
-    "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"NODE_ENV=development nodemon dist/extension\"",
+    "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"NODE_ENV=development nodemon dist/extension --watch dist/extension.js\"",
     "build": "yarn build:ui && yarn build:extension",
     "build:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js",
     "build:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js",

@@ -4,41 +4,51 @@ import fs from 'fs/promises'
 import * as path from 'path'
 import chokidar from 'chokidar'
 
-
-
 const app = express()
 const port = 3000
-
-
-async function getProjectFiles(files: Record<string, { code : string }>, rootPath: string, currentPath: string = rootPath): Promise<void> {
-    const entries = await fs.readdir(currentPath)
-    
-    await Promise.all(entries.map(async (entry) => {
-        const newPath = path.join(currentPath, entry)
-        const stat = await fs.stat(newPath)
-        
-        if (stat.isFile()) {
-            const content = await fs.readFile(newPath)
-            files[newPath.substring(rootPath.length)] = { code: content.toString()}
-            
-        } else if (stat.isDirectory()) {
-            return getProjectFiles(files, rootPath, newPath)
-        }
-    }))
-}
-
 const rootPath = process.env.NODE_ENV === 'development' ? path.join(process.cwd(), 'demo') : process.cwd()
 const files: Record<string, { code: string }> = {}
-const initialFilesPromise = getProjectFiles(files, rootPath)
-const wsServer = new ws.WebSocketServer({ noServer: true });
+const wsServer = new ws.Server({ noServer: true });
 
 // One-liner for current directory
-chokidar.watch('.').on('all', (event, path) => {
+chokidar.watch(rootPath, {
+    ignored: [/node_modules/]
+}).on('all', async (event, path) => {
+
+
+        switch (event) {
+            case 'add': {
+                const stat = await fs.stat(path)
+        
+                if (stat.isFile()) {
+                    const content = await fs.readFile(path)
+                    files[path.substring(rootPath.length)] = { code: content.toString()}
+                }
+                break
+            }
+            case 'change': {
+                const content = await fs.readFile(path)
+                console.log("WTF?", content.toString())
+                files[path.substring(rootPath.length)] = { code: content.toString()}
+                break
+            }
+            case 'unlink': {
+                delete files[path.substring(rootPath.length)]
+                break
+            }
+        }
+        
+          const stringifiedFiles = JSON.stringify(files)
+        wsServer.clients.forEach((socket) => {
+            socket.send(stringifiedFiles)
+        })
+    
   
 });
 
 wsServer.on('connection', socket => {
-  initialFilesPromise.then(() => socket.send(JSON.stringify(files)))
+
+  socket.send(JSON.stringify(files))
 });
 
 
@@ -57,7 +67,11 @@ app.get('/', (_, res) => {
     res.setHeader('Content-Type', 'text/html')
   res.send(`<!DOCTYPE html>
 <html>
-  <head></head>
+  <head>
+    <style>
+      html, body { margin: 0; height: 100vh; }
+    </style>
+  </head>
   <body>
     <script src="ui.js"></script>
   </body>
