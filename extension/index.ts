@@ -1,7 +1,8 @@
 import express from 'express'
+import expressWs from 'express-ws'
 import fs from 'fs'
 
-const app = express()
+const app = expressWs(express)
 const port = 3000
 
 app.get('/ui.js', (_, res) => {
@@ -9,12 +10,10 @@ app.get('/ui.js', (_, res) => {
     res.send(fs.readFileSync(`${__dirname}/ui.js`).toString())
 })
 
-app.get('/uppercase-name', () => {
-    const packageJson = JSON.parse(fs.readFileSync(`${process.cwd()}/package.json`).toString())
-    
-    packageJson.name = packageJson.name.toUpperCase()
-    
-    fs.writeFileSync(`${process.cwd()}/package.json`, JSON.stringify(packageJson, null, 2))
+app.get('/files', (_, res) => {
+    if (process.env.NODE_ENV === 'development') {
+        
+    }
 })
 
 app.get('/', (_, res) => {
