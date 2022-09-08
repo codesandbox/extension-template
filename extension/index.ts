@@ -10,12 +10,9 @@ app.get('/devtool.js', (_, res) => {
 })
 
 app.get('/uppercase-name', () => {
-    console.log("UPPERCASED IT!?!?")
     const packageJson = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString())
     
     packageJson.name = packageJson.name.toUpperCase()
-    
-    
     
     fs.writeFileSync(`${__dirname}/../package.json`, JSON.stringify(packageJson, null, 2))
 })

@@ -1,16 +1,16 @@
 {
-  "name": "devtool-template",
+  "name": "extension-template",
   "version": "1.0.0",
-  "description": "A devtool for CodeSandbox",
+  "description": "An extension for CodeSandbox",
   "main": "index.js",
-  "bin": "bin/devtool",
+  "bin": "bin/extension",
   "scripts": {
-    "dev": "yarn build && concurrently -n devtool,environment,dist -c red,green,yellow \"yarn watch:devtool\" \"yarn watch:environment\" \"nodemon dist/environment\"",
-    "build": "yarn build:devtool && yarn build:environment",
-    "build:devtool": "esbuild devtool/index.ts --bundle --outfile=dist/devtool.js",
-    "build:environment": "esbuild environment/index.ts --bundle --platform=node --outfile=dist/environment.js",
-    "watch:devtool": "esbuild devtool/index.ts --bundle --outfile=dist/devtool.js --watch",
-    "watch:environment": "esbuild environment/index.ts --bundle --platform=node --outfile=dist/environment.js --watch",
+    "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"nodemon dist/extension\"",
+    "build": "yarn build:ui && yarn build:extension",
+    "build:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js",
+    "build:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js",
+    "watch:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js --watch",
+    "watch:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
