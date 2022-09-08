@@ -5,15 +5,29 @@ document.body.innerHTML = `
     
 `
 
-const client = new SandpackClient('#iframe', {
-files: {
-    "/index.js": {
-      code: `console.log(require('uuid'))`,
-    },
-  },
-  entry: "/index.js",
-  dependencies: {
-    uuid: "latest",
-  },
-})
+const ws = new WebSocket('ws://localhost:3000')
 
+
+
+
+
+
+ws.onopen = () => {
+    console.log("HEEEY")
+}
+
+let client: SandpackClient
+
+ws.onmessage = (msg) => {
+    const files = JSON.parse(msg.data)
+    console.log(files)
+    if (client) {
+      client.updatePreview({files})
+    } else {
+        client = new SandpackClient('#iframe', {
+        files
+    })  
+    }
+    
+
+}

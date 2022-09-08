@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": "bin/extension",
   "scripts": {
-    "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"nodemon dist/extension\"",
+    "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"NODE_ENV=development nodemon dist/extension\"",
     "build": "yarn build:ui && yarn build:extension",
     "build:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js",
     "build:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js",
@@ -25,14 +25,15 @@
   "homepage": "https://github.com/codesandbox/devtool-template#readme",
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "@types/express-ws": "^3.0.1",
     "concurrently": "^7.3.0",
     "esbuild": "^0.15.7",
     "nodemon": "^2.0.19"
   },
   "dependencies": {
     "@codesandbox/sandpack-client": "^1.7.0",
+    "@types/ws": "^8.5.3",
+    "chokidar": "^3.5.3",
     "express": "^4.18.1",
-    "express-ws": "^5.0.2"
+    "ws": "^8.8.1"
   }
 }
