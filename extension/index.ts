@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import express from 'express'
 import * as ws from 'ws'
 import fs from 'fs/promises'
