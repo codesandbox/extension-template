@@ -11,7 +11,7 @@ let client: SandpackClient;
 
 ws.onmessage = (msg) => {
   const files = JSON.parse(msg.data);
-  console.log(files);
+
   if (client) {
     client.updatePreview({ files });
   } else {
