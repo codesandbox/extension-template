@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "description": "An extension for CodeSandbox",
   "main": "index.js",
-  "bin": "bin/extension",
+  "bin": {
+    "extension-demo": "dist/extension.js"
+  },
   "scripts": {
     "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"nodemon dist/extension --watch dist/extension.js\"",
     "build": "yarn build:ui && yarn build:extension",
     "build:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js",
-    "build:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js",
+    "build:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js --target=node16",
     "watch:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js --watch",
-    "watch:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js --watch",
+    "watch:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js --target=node16 --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,5 +33,9 @@
   },
   "dependencies": {
     "express": "^4.18.1"
-  }
+  },
+  "files": [
+    "dist",
+    "bin"
+  ]
 }
