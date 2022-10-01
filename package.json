@@ -7,12 +7,12 @@
     "extension-demo": "dist/extension.js"
   },
   "scripts": {
-    "dev": "yarn build && concurrently -n ui,extension,dist -c red,green,yellow \"yarn watch:ui\" \"yarn watch:extension\" \"nodemon dist/extension --watch dist/extension.js\"",
-    "build": "yarn build:ui && yarn build:extension",
-    "build:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js",
-    "build:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js --target=node16",
-    "watch:ui": "esbuild ui/index.ts --bundle --outfile=dist/ui.js --watch",
-    "watch:extension": "esbuild extension/index.ts --bundle --platform=node --outfile=dist/extension.js --target=node16 --watch",
+    "dev": "yarn build && concurrently -n client,server,dist -c red,green,yellow \"yarn watch:client\" \"yarn watch:server\" \"nodemon dist/server --watch dist/server.js\"",
+    "build": "yarn build:client && yarn build:server",
+    "build:client": "esbuild client/index.ts --bundle --outfile=dist/client.js",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --outfile=dist/server.js --target=node16",
+    "watch:client": "esbuild client/index.ts --bundle --outfile=dist/client.js --watch",
+    "watch:server": "esbuild server/index.ts --bundle --platform=node --outfile=dist/server.js --target=node16 --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,10 +29,12 @@
     "@types/express": "^4.17.13",
     "concurrently": "^7.3.0",
     "esbuild": "^0.15.7",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "@types/ws": "^8.5.3"
   },
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "ws": "^8.9.0"
   },
   "files": [
     "dist",
