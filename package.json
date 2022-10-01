@@ -7,7 +7,7 @@
     "extension-demo": "dist/extension.js"
   },
   "scripts": {
-    "dev": "yarn build && concurrently -n client,server,dist -c red,green,yellow \"yarn watch:client\" \"yarn watch:server\" \"nodemon dist/server --watch dist/server.js\"",
+    "dev": "yarn build && concurrently -n client,server,dist -c red,green,yellow \"yarn watch:client\" \"yarn watch:server\" \"NODE_ENV=development nodemon dist/server --watch dist/server.js\"",
     "build": "yarn build:client && yarn build:server",
     "build:client": "esbuild client/index.ts --bundle --outfile=dist/client.js",
     "build:server": "esbuild server/index.ts --bundle --platform=node --outfile=dist/server.js --target=node16",
